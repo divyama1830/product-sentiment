@@ -63,3 +63,13 @@ def demo():
 @app.route("/", methods=["GET"])
 def root():
     return "Sentiment Analysis API is running! Use /analyze or /demo"
+
+@app.route("/health")
+def health():
+    return "OK", 200
+
+
+# 🔧 Render requires you to bind to PORT from env variable
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))  # fallback to 5000 for local testing
+    app.run(host="0.0.0.0", port=port)
