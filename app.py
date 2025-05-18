@@ -2,8 +2,12 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import requests
 import os
+import logging
 
 app = Flask(__name__)
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)  # Logs all levels DEBUG and above
 
 HF_URL = "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
 HF_TOKEN = "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" # Replace with your real Hugging Face token
@@ -11,6 +15,7 @@ HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 
 def get_sentiment(text):
+    app.logger.debug(f"Calling get_sentiment for text: {text}")
     try:
         response = requests.post(HF_URL, headers=HEADERS, json={"inputs": text})
         response.raise_for_status()
@@ -18,6 +23,7 @@ def get_sentiment(text):
         label = result['label']
         score = result['score']
         score = score if label == 'POSITIVE' else -score
+        app.logger.debug(f"Sentiment: {label}, Score: {score}")
         return label, round(score, 3)
     except Exception as e:
         return "ERROR", 0
