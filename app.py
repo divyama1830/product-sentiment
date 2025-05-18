@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-HF_URL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+HF_URL = "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
 HF_TOKEN = "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" # Replace with your real Hugging Face token
 HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
 
