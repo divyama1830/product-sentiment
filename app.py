@@ -25,7 +25,7 @@ def get_sentiment(text):
         app.logger.debug(f"Raw response status: {response.status_code}")
         app.logger.debug(f"Raw response text: {response.text}")
         response.raise_for_status()
-        result = response.json()[0]
+        result = response.json()[0][0]
         label = result['label']
         score = result['score']
         score = score if label == 'POSITIVE' else -score
