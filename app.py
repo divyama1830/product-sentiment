@@ -18,6 +18,9 @@ def get_sentiment(text):
     app.logger.debug(f"Calling get_sentiment for text: {text}")
     try:
         response = requests.post(HF_URL, headers=HEADERS, json={"inputs": text})
+         
+        app.logger.debug(f"Raw response status: {response.status_code}")
+        app.logger.debug(f"Raw response text: {response.text}")
         response.raise_for_status()
         result = response.json()[0]
         label = result['label']
