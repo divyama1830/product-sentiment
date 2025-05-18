@@ -11,11 +11,14 @@ logging.basicConfig(level=logging.DEBUG)  # Logs all levels DEBUG and above
 
 HF_URL = "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
 HF_TOKEN = "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" # Replace with your real Hugging Face token
-HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
+HEADERS = {
+    "Authorization": f"Bearer {HF_TOKEN}",
+    "Content-Type": "application/json"
+}
 
 
 def get_sentiment(text):
-    app.logger.debug(f"Calling get_sentiment for text: {text}")
+    app.logger.debug(f"Calling get_sentiment for text divya: {text}")
     try:
         response = requests.post(HF_URL, headers=HEADERS, json={"inputs": text})
          
@@ -29,6 +32,7 @@ def get_sentiment(text):
         app.logger.debug(f"Sentiment: {label}, Score: {score}")
         return label, round(score, 3)
     except Exception as e:
+        app.logger.error(f"Error in get_sentiment: {e}")
         return "ERROR", 0
 
 
