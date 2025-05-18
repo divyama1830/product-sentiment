@@ -68,10 +68,21 @@ def analyze():
     return jsonify(process_reviews(df))
 
 
-@app.route("/demo", methods=["GET"])
-def demo():
+@app.route("/demo/<model>", methods=["GET"])
+def demo(model):
+    app.logger.debug(f"Requested headset model: {model}")
+
     df = pd.read_csv("Customer_Reviews_for_Headsets.csv")
-    return jsonify(process_reviews(df))
+
+    if 'Headset Model' not in df.columns or 'Review' not in df.columns:
+        return jsonify({"error": "CSV must have 'Headset Model' and 'Review' columns."}), 400
+
+    filtered_df = df[df['Headset Model'].str.lower() == model.lower()]
+
+    if filtered_df.empty:
+        return jsonify({"error": f"No reviews found for model: {model}"}), 404
+
+    return jsonify(process_reviews(filtered_df))
 
 
 @app.route("/", methods=["GET"])
