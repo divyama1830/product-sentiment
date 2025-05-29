@@ -72,12 +72,12 @@ def analyze():
 def demo(model):
     app.logger.debug(f"Requested headset model: {model}")
 
-    df = pd.read_csv("Customer_Reviews_for_Headsets.csv")
+    df = pd.read_csv("Consolidated_MacBook_Pro_Reviews.csv")
 
     if 'Headset Model' not in df.columns or 'Review' not in df.columns:
-        return jsonify({"error": "CSV must have 'Headset Model' and 'Review' columns."}), 400
+        return jsonify({"error": "CSV must have 'Model' and 'Review' columns."}), 400
 
-    filtered_df = df[df['Headset Model'].str.lower() == model.lower()]
+    filtered_df = df[df['Model'].str.lower() == model.lower()]
 
     if filtered_df.empty:
         return jsonify({"error": f"No reviews found for model: {model}"}), 404
