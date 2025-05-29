@@ -74,7 +74,7 @@ def demo(model):
 
     df = pd.read_csv("Consolidated_MacBook_Pro_Reviews.csv")
 
-    if 'Headset Model' not in df.columns or 'Review' not in df.columns:
+    if 'Model' not in df.columns or 'Review' not in df.columns:
         return jsonify({"error": "CSV must have 'Model' and 'Review' columns."}), 400
 
     filtered_df = df[df['Model'].str.lower() == model.lower()]
